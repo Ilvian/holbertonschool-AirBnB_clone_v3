@@ -18,12 +18,8 @@ class test_fileStorage(unittest.TestCase):
                      "Testing DBStorage")
     def setUp(self):
         """ Set up test environment """
-        del_list = []
         self.storage = FileStorage()
-        for key in self.storage.all().keys():
-            del_list.append(key)
-        for key in del_list:
-            del self.storage.all()[key]
+        self.storage._FileStorage__objects = {}
 
     @unittest.skipIf(type(models.storage) == DBStorage,
                      "Testing DBStorage")
