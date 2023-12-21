@@ -14,7 +14,7 @@ from models.state import State
 class test_fileStorage(unittest.TestCase):
     """ Class to test the file storage method """
 
-    @unittest.skipIf(type(models.storage) == DBStorage,
+    @unittest.skipIf(type(models.storage) != DBStorage,
                      "Testing DBStorage")
     def setUp(self):
         """ Set up test environment """
