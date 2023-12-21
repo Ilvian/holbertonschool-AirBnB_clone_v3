@@ -20,29 +20,30 @@ class TestDBStorage(unittest.TestCase):
     """Unittests for testing the DBStorage class."""
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         """DBStorage testing setup.
         """
-        if type(models.storage) == DBStorage:
-            self.storage = DBStorage()
-            Base.metadata.create_all(self.storage._DBStorage__engine)
-            Session = sessionmaker(bind=self.storage._DBStorage__engine)
-            self.storage._DBStorage__session = Session()
-            self.state = State(name="California")
-            self.storage._DBStorage__session.add(self.state)
-            self.city = City(name="San_Jose", state_id=self.state.id)
-            self.storage._DBStorage__session.add(self.city)
-            self.user = User(email="poppy@holberton.com", password="betty")
-            self.storage._DBStorage__session.add(self.user)
-            self.place = Place(city_id=self.city.id, user_id=self.user.id,
-                               name="School")
-            self.storage._DBStorage__session.add(self.place)
-            self.amenity = Amenity(name="Wifi")
-            self.storage._DBStorage__session.add(self.amenity)
-            self.review = Review(place_id=self.place.id, user_id=self.user.id,
-                                 text="stellar")
-            self.storage._DBStorage__session.add(self.review)
-            self.storage._DBStorage__session.commit()
+        models.storage = DBStorage()
+
+        cls.storage = models.storage
+        Base.metadata.create_all(cls.storage._DBStorage__engine)
+        Session = sessionmaker(bind=cls.storage._DBStorage__engine)
+        cls.storage._DBStorage__session = Session()
+        cls.state = State(name="California")
+        cls.storage._DBStorage__session.add(cls.state)
+        cls.city = City(name="San_Jose", state_id=cls.state.id)
+        cls.storage._DBStorage__session.add(cls.city)
+        cls.user = User(email="poppy@holberton.com", password="betty")
+        cls.storage._DBStorage__session.add(cls.user)
+        cls.place = Place(city_id=cls.city.id, user_id=cls.user.id,
+                          name="School")
+        cls.storage._DBStorage__session.add(cls.place)
+        cls.amenity = Amenity(name="Wifi")
+        cls.storage._DBStorage__session.add(cls.amenity)
+        cls.review = Review(place_id=cls.place.id, user_id=cls.user.id,
+                            text="stellar")
+        cls.storage._DBStorage__session.add(cls.review)
+        cls.storage._DBStorage__session.commit()
 
     def test_docstrings(self):
         self.assertIsNotNone(DBStorage.__doc__)
