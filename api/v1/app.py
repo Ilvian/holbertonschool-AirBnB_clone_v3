@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 '''
-app
+Module to instatiate an flask app
+to deploy our API
 '''
 from flask import Flask, make_response, jsonify
 from models import storage
@@ -20,7 +21,8 @@ app.register_blueprint(app_views)
 @app.teardown_appcontext
 def tear(self):
     '''
-    closes storage engine
+    Function call to close db connection
+    after each app teardwon
     '''
     storage.close()
 
@@ -28,7 +30,7 @@ def tear(self):
 @app.errorhandler(404)
 def not_found(error):
     '''
-    handles 404 error and gives json formatted response
+    Starting server
     '''
     return make_response(jsonify({'error': 'Not found'}), 404)
 
