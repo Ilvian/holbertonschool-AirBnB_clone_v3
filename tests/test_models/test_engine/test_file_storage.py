@@ -153,14 +153,14 @@ class test_fileStorage(unittest.TestCase):
         state = State(name='Albania')
         state.save()
         x = self.storage.get(State, state.id)
-        self.assertEqual(x, state)
+        self.assertEqual(x.to_dict(), state.to_dict())
 
     @unittest.skipIf(models.storage_t == DBStorage, "Testing DBStorage")
     def test_count(self):
         state = State(name='another')
         state.save()
         self.assertEqual(len(self.storage.all()), self.storage.count())
-        self.assertEqual(len(self.storage.all(State)), storage.count(State))
+        self.assertEqual(len(self.storage.all(State)), len(self.storage.count(State)))
 
 
 if __name__ == '__main__':
