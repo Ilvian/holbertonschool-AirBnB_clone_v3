@@ -31,7 +31,7 @@ class test_fileStorage(unittest.TestCase):
         """ Remove storage file at end of tests """
         try:
             os.remove('file.json')
-        except:
+        except FileNotFoundError:
             pass
 
     @unittest.skipIf(type(models.storage) == DBStorage,
@@ -163,8 +163,11 @@ class test_fileStorage(unittest.TestCase):
     def test_count(self):
         state = State(name='another')
         state.save()
-        self.assertEqual(len(self.storage.all()), storage.count())
-        self.assertEqual(len(self.storage.all(State)), storage.count(State))
+        self.assertEqual(len(self.storage.all()), self.storage.count())
+        self.assertEqual(
+                len(self.storage.all(State)),
+                self.storage.count(State)
+                )
 
 
 if __name__ == '__main__':
